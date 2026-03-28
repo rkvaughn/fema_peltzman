@@ -1,0 +1,29 @@
+# Environment
+.env
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.DS_Store
+
+# Data — raw and intermediate never committed; analysis parquets committed if small
+data/raw/
+data/intermediate/
+data/analysis/*.parquet
+
+# Large outputs
+figures/*.pdf
+figures/*.png
+tables/*.tex
+tables/*.csv
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# R
+.Rhistory
+.RData
+
+# Allow paper PDFs
+!paper/*.pdf
