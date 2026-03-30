@@ -1,0 +1,467 @@
+%% fema_peltzman — paper/draft.tex
+%% Compile: pdflatex draft.tex (or: pandoc --pdf-engine=tectonic draft.tex -o draft.pdf)
+%%
+%% PLACEHOLDER SECTIONS: all tables, figures, and numeric results are imported
+%% from the analysis pipeline outputs (tables/*.tex, figures/*.png).
+%% Do NOT hardcode any quantitative values in this file.
+
+\documentclass[12pt]{article}
+
+%% --- Packages ---
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{threeparttable}
+\usepackage{rotating}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+%% Figure/table path
+\graphicspath{{../figures/}}
+
+%% Convenience macros
+\newcommand{\IA}{\textrm{IA}}
+\newcommand{\NFIP}{\textrm{NFIP}}
+\newcommand{\RD}{\textrm{RD}}
+\newcommand{\IV}{\textrm{IV}}
+\newcommand{\OLS}{\textrm{OLS}}
+\newcommand{\SDID}{\textrm{SDID}}
+\newcommand{\CCT}{\textrm{CCT}}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+%% Title page
+\title{Does Disaster Aid Crowd Out Private Mitigation?\\
+       Evidence from FEMA Individual Assistance Thresholds}
+\author{Ryan Vaughn \and [Co-author TBD]}
+\date{\today}
+\maketitle
+
+\begin{abstract}
+We test whether exposure to FEMA Individual Assistance (\IA{}) alters household
+pre-disaster mitigation investment and post-disaster claiming behavior—the
+``Peltzman hypothesis'' applied to federal disaster aid.
+Using the per-capita damage threshold that governs \IA{} eligibility as a
+source of quasi-random variation, we estimate two complementary designs.
+\emph{Mechanism A}: a historical instrumental variables (\IV{}) design exploits
+prior threshold crossings to identify the effect of past \IA{} receipt on
+subsequent NFIP damage patterns, our proxy for pre-disaster mitigation effort.
+\emph{Mechanism B}: a contemporaneous fuzzy regression discontinuity (\RD{})
+design estimates the effect of current \IA{} declaration on post-disaster
+claiming behavior.
+[Results pending data acquisition and analysis.]
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================
+
+The United States spends tens of billions of dollars annually on federal
+disaster assistance through programs such as FEMA Individual Assistance,
+which provides direct grants to households affected by presidentially declared
+major disasters.
+A long-standing concern in the disaster risk management literature is that
+public disaster aid, by reducing the expected private cost of unmitigated
+exposure, may discourage household investment in mitigation—the canonical
+Peltzman~\citeyearpar{peltzman1975} moral hazard mechanism applied to
+catastrophe insurance \citep{kunreuther2004,browne2008}.
+The empirical magnitude of this effect is an open question with direct policy
+relevance: if aid crowds out mitigation, the net welfare effect of expanding
+\IA{} coverage could be negative.
+
+The primary empirical challenge is that \IA{} exposure is not randomly assigned:
+disaster severity, community characteristics, and political economy all influence
+both who receives aid and who later mitigates.
+We address this identification problem using the per-capita damage threshold that
+FEMA uses to determine \IA{} eligibility under 44 CFR \S{}206.48, which creates
+sharp variation in aid receipt as a function of a running variable that is
+plausibly exogenous to household mitigation behavior within narrow neighborhoods
+of the threshold.
+
+We contribute to a growing quasi-experimental literature on disaster aid and
+mitigation behavior
+\citep{gallagher2014,horn2021,andor2020,botzen2019,davlasheridze2019}.
+Relative to \citeauthor{gallagher2014}'s \citeyearpar{gallagher2014} seminal
+work using NFIP purchase decisions as the mitigation proxy, our design:
+(i)~instruments prior \IA{} receipt using past threshold crossings rather than
+relying on within-ZIP panel variation;
+(ii)~uses the contents-to-structural damage ratio—a behavioral outcome that
+reflects pre-storm mitigation choices—rather than insurance purchase;
+and (iii)~applies a TTR adjustment to the running variable to control for
+cross-state variation in state fiscal capacity.
+
+[Remainder of introduction: roadmap, preview of results, outline.]
+
+% ============================================================
+\section{Institutional Background}
+\label{sec:background}
+% ============================================================
+
+\subsection{FEMA Individual Assistance}
+
+FEMA's Individual Assistance program provides direct grants to disaster-affected
+households for temporary housing, home repair, and other unmet needs following a
+presidential major disaster declaration.
+Whether a county receives an \IA{} declaration depends on FEMA's assessment of
+whether state resources are ``overwhelmed,'' formalized in a per-capita damage
+threshold that has been updated periodically through Federal Register notices
+under 44 CFR \S{}206.48.
+[Detail on threshold history, CPI adjustments, state vs. county thresholds.]
+
+\subsection{National Flood Insurance Program}
+
+[NFIP structure, mandatory purchase requirement, contents vs. building coverage,
+claim payment process, mitigation-relevant behavioral margins.]
+
+\subsection{TTR Adjustment}
+\label{sec:ttr}
+
+[Tax-to-revenue ratio adjustment rationale: cross-state fiscal capacity variation
+means the same per-capita damage number implies different levels of ``overwhelmed''
+for a wealthy vs. a poor state. Three specifications (linear, log, rank) and
+selection via first-stage F.]
+
+% ============================================================
+\section{Conceptual Framework}
+\label{sec:framework}
+% ============================================================
+
+\subsection{Mechanism A: Historical Mitigation Response}
+
+Let $m_{i,t}$ denote household $i$'s mitigation investment in period $t$,
+and let $A_{i,t-k}$ denote receipt of \IA{} in a prior disaster $k$ periods ago.
+The Peltzman hypothesis predicts $\partial m / \partial A < 0$: prior aid receipt
+reduces current mitigation.
+The complementarity hypothesis \citep{andor2020} predicts $\partial m / \partial A > 0$:
+aid enables recovery investment that raises the value of the home and thus the
+marginal benefit of mitigation.
+
+\subsection{Mechanism B: Post-Disaster Claiming Response}
+
+Let $c_{i,t}$ denote household $i$'s post-disaster claiming behavior (application
+rate, award amount, time to application) following current disaster $t$.
+If prior aid creates moral hazard, we expect $\partial c / \partial A_{t} > 0$
+for households in counties that just crossed the declaration threshold.
+
+\subsection{Theoretical Predictions}
+[Table of sign predictions under Peltzman vs. complementarity, by outcome and mechanism.]
+
+% ============================================================
+\section{Data}
+\label{sec:data}
+% ============================================================
+
+\subsection{FEMA Declarations and Individual Assistance}
+[OpenFEMA: DisasterDeclarationsSummaries, HousingAssistanceOwners/Renters,
+IndividualAssistanceHousingRegistrantsLargeDisasters. Sample period, geographic coverage.]
+
+\subsection{NFIP Claims}
+[FimaNfipClaims: contents and building paid amounts, water depth, date, ZIP.
+Sample construction: matched to disaster by disasterNumber then date+county window.]
+
+\subsection{Public Assistance Damage Estimates}
+[PublicAssistanceApplicantsPrograms: project costs aggregated to county level
+to construct the running variable denominator.]
+
+\subsection{Hazard Intensity Controls}
+[USGS STN high-water marks (IDW interpolated to ZIP), HURDAT2 wind radii,
+NWS IEM warning lead times.]
+
+\subsection{ACS Demographics}
+[ZCTA-level 5-year ACS, 2011--2023 vintages. Key variables: population, income,
+owner-occupancy, housing age.]
+
+\subsection{Treasury Tax-to-Revenue Ratios}
+[Annual state-level TTR data. Percentile rank within fiscal year used in rank spec.]
+
+\subsection{Sample Construction and Summary Statistics}
+
+\input{../tables/tab_desc_stats_a.tex}
+\input{../tables/tab_desc_stats_b.tex}
+
+% ============================================================
+\section{Identification Strategy}
+\label{sec:identification}
+% ============================================================
+
+\subsection{Running Variable Construction}
+\label{sec:running_var}
+
+The running variable for the contemporaneous design (Mechanism B) is:
+\begin{equation}
+  RV_{c,t} = \frac{PA\_damage_{c,t} / pop_{c,t}}{TTR_{s,t} / 100} - \tau_{s,t}
+  \label{eq:rv_linear}
+\end{equation}
+where $PA\_damage_{c,t}$ is county-level Public Assistance project costs,
+$pop_{c,t}$ is county population from the nearest prior ACS vintage,
+$TTR_{s,t}$ is state $s$'s tax-to-revenue ratio as a percentage of the national
+average, and $\tau_{s,t}$ is the applicable per-capita \IA{} threshold for
+year $t$.
+
+Two alternative TTR adjustment specifications are also estimated (log and
+percentile-rank transformations; see Appendix~\ref{app:ttr}) and the preferred
+specification is selected by highest first-stage $F$-statistic
+(Table~\ref{tab:first_stage}).
+
+For Mechanism A, the prior running variable $RV_{c,t-k}$ is constructed
+analogously using the prior disaster.
+
+\subsection{Mechanism A: Historical IV Design}
+
+The first-stage regression is:
+\begin{equation}
+  A_{i,t-k} = \alpha_0 + \alpha_1 \mathbf{1}[RV_{c,t-k} \geq 0]
+              + g(RV_{c,t-k}) + X_{i,t} + \delta_s + \lambda_t + \varepsilon_{i,t}
+  \label{eq:fs_a}
+\end{equation}
+and the second-stage structural equation is:
+\begin{equation}
+  Y_{i,t} = \beta_0 + \beta_1 \hat{A}_{i,t-k}
+              + g(RV_{c,t-k}) + X_{i,t} + H_{c,t} + \delta_s + \lambda_t + u_{i,t}
+  \label{eq:ss_a}
+\end{equation}
+where $Y_{i,t}$ is a mitigation proxy outcome, $g(\cdot)$ is a linear control
+for the running variable, $X_{i,t}$ are ACS demographics, $H_{c,t}$ are hazard
+intensity controls, and $\delta_s$, $\lambda_t$ are state and year fixed effects.
+Standard errors are clustered at the county level.
+
+\subsection{Mechanism B: Fuzzy RD Design}
+
+The sharp RD estimate of the intent-to-treat effect is:
+\begin{equation}
+  \tau^{ITT} = \lim_{r \downarrow 0} \mathbb{E}[Y | RV=r] -
+               \lim_{r \uparrow 0} \mathbb{E}[Y | RV=r]
+\end{equation}
+The fuzzy RD (LATE) scales by the first-stage jump in \IA{} declaration
+probability:
+\begin{equation}
+  \tau^{LATE} = \frac{\tau^{ITT}}{\lim_{r \downarrow 0} \Pr[\IA=1|RV=r] -
+                                   \lim_{r \uparrow 0} \Pr[\IA=1|RV=r]}
+\end{equation}
+We estimate both using local linear regression with triangular kernel and
+\citet{calonico2014} optimal bandwidth (CCT).
+
+\subsection{Validity Tests}
+
+\subsubsection{McCrary Density Test}
+Figure~\ref{fig:mccrary_a} and Table~\ref{tab:mccrary} report \citet{cattaneo2020}
+density discontinuity tests at the threshold for both mechanisms.
+
+\subsubsection{Balance on Predetermined Covariates}
+Table~\ref{tab:balance} reports local linear \RD{} estimates of the discontinuity
+in five predetermined covariates (median household income, presidential vote margin,
+owner-occupancy rate, pre-1980 housing share, county population).
+We apply a Bonferroni correction for $k=5$ tests.
+
+\subsubsection{Placebo Thresholds}
+Table~\ref{tab:placebo_thresholds} reports \RD{} estimates at placebo thresholds
+located at the 10th, 25th, 75th, and 90th percentiles of the running variable
+distribution, excluding observations near the true threshold.
+
+% ============================================================
+\section{Results}
+\label{sec:results}
+% ============================================================
+
+\subsection{First Stage}
+\label{sec:first_stage}
+
+\input{../tables/tab_first_stage.tex}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{fig_binscatter_a.png}
+  \caption{First Stage — Mechanism A: Prior IA receipt vs. prior running variable.}
+  \label{fig:binscatter_a}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{fig_binscatter_b.png}
+  \caption{First Stage — Mechanism B: IA declaration probability vs. running variable.}
+  \label{fig:binscatter_b}
+\end{figure}
+
+\subsection{Mechanism A: Effect of Prior IA on Pre-Disaster Mitigation}
+\label{sec:mech_a}
+
+\input{../tables/tab_mech_a_2sls.tex}
+
+\subsection{Mechanism B: Effect of IA Declaration on Post-Disaster Claiming}
+\label{sec:mech_b}
+
+\input{../tables/tab_mech_b_rd.tex}
+
+\subsection{SDID Estimates}
+\label{sec:sdid}
+
+\input{../tables/tab_sdid.tex}
+
+% ============================================================
+\section{Robustness}
+\label{sec:robustness}
+% ============================================================
+
+\input{../tables/tab_robustness.tex}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{fig_donut_rd.png}
+  \caption{Donut RD Sensitivity — Mechanism B.}
+  \label{fig:donut}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{fig_ttr_spec_comparison.png}
+  \caption{Coefficient stability across TTR specifications.}
+  \label{fig:ttr_spec}
+\end{figure}
+
+% ============================================================
+\section{Heterogeneity}
+\label{sec:heterogeneity}
+% ============================================================
+
+\input{../tables/tab_heterogeneity.tex}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\textwidth]{fig_temporal_decay.png}
+  \caption{Mechanism A: Temporal decay of the treatment effect by years since
+           prior IA event (bins pre-specified per \citealt{gallagher2014}).}
+  \label{fig:decay}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\textwidth]{fig_tenure_interaction.png}
+  \caption{Mechanism A: Treatment effect by owner-occupancy tercile.}
+  \label{fig:tenure}
+\end{figure}
+
+% ============================================================
+\section{Discussion}
+\label{sec:discussion}
+% ============================================================
+
+[Interpretation of main results under Peltzman vs. complementarity framing.
+Comparison with Gallagher (2014), Andor et al. (2020), Botzen et al. (2019).
+Welfare implications for IA program design.
+Limitations: running variable fuzziness, NFIP coverage gaps, PA damage measurement.]
+
+% ============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================
+
+[Summary of findings. Policy implications for FEMA disaster aid design.
+Directions for future work: heterogeneous effects by income, dynamic panel,
+extension to other IA-adjacent programs.]
+
+% ============================================================
+%% Appendices
+% ============================================================
+\appendix
+
+\section{TTR Adjustment Specifications}
+\label{app:ttr}
+
+The three TTR-adjusted running variable specifications (pre-specified in the
+project plan and selected by first-stage $F$-statistic) are:
+\begin{align}
+  RV^{\text{linear}}_{c,t} &= \frac{PC_{c,t}}{TTR_{s,t}/100} - \tau_{s,t}
+  \label{eq:rv_linear_app} \\
+  RV^{\text{log}}_{c,t}    &= PC_{c,t} \cdot \ln\!\left(\frac{100}{TTR_{s,t}}\right) - \tau_{s,t}
+  \label{eq:rv_log} \\
+  RV^{\text{rank}}_{c,t}   &= PC_{c,t} \cdot \bigl(1 + (1 - \text{rank}_{s,t})\bigr) - \tau_{s,t}
+  \label{eq:rv_rank}
+\end{align}
+where $PC_{c,t}$ is per-capita PA project costs, $TTR_{s,t}$ is the state
+tax-to-revenue ratio as a percentage of the national average, $\text{rank}_{s,t}$
+is its within-year percentile rank, and $\tau_{s,t}$ is the applicable
+per-capita threshold.
+
+\section{McCrary Density Test Results}
+\label{app:mccrary}
+
+\input{../tables/tab_mccrary.tex}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{fig_mccrary_a.png}
+    \caption{Mechanism A (prior running variable)}
+    \label{fig:mccrary_a}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{fig_mccrary_b.png}
+    \caption{Mechanism B (contemporaneous running variable)}
+    \label{fig:mccrary_b}
+  \end{subfigure}
+  \caption{McCrary density test plots.
+           Bars: binned density estimate.
+           Lines: local linear fit on each side.
+           Null hypothesis: density is continuous at threshold.}
+\end{figure}
+
+\section{Balance Tests}
+\label{app:balance}
+
+\input{../tables/tab_balance.tex}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.75\textwidth]{fig_balance_coefplot.png}
+  \caption{RD balance coefficient plot. Red markers indicate significance
+           at Bonferroni-adjusted $\alpha = 0.01$.}
+  \label{fig:balance}
+\end{figure}
+
+\section{Anderson-Rubin Confidence Intervals}
+\label{app:ar}
+
+If the first-stage $F$-statistic falls below 10, we report weak-instrument-robust
+Anderson-Rubin \citeyearpar{andersonrubin1949} confidence intervals in addition
+to the standard 2SLS estimates.
+
+\IfFileExists{../tables/tab_mech_a_ar_ci.tex}{%
+  \input{../tables/tab_mech_a_ar_ci.tex}%
+}{%
+  [AR CI table will appear here if first-stage F\,$<$\,10 in the data.]%
+}
+
+\section{Gate Check Report}
+\label{app:gate}
+
+The gate check report produced by \texttt{analysis/00\_gate\_check.py} is
+reproduced below for transparency. Analysis proceeds only if all five gates pass.
+
+\begin{verbatim}
+[Gate check report — paste contents of data/analysis/gate_check_report.txt here]
+\end{verbatim}
+
+% ============================================================
+%% References
+% ============================================================
+\bibliographystyle{aer}
+\bibliography{references}
+
+\end{document}
